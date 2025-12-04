@@ -1,0 +1,165 @@
+{
+  "menu": [
+    {
+      "section": "Platos Principales",
+      "items": [
+        {
+          "name": "Churrasco",
+          "price": 43000,
+          "description": "Churrasco estilo mariposa con ensalada y acompañantes como patacon, papas a la francesa o yuca cocida",
+          "weight": "400 Gramos",
+          "image": "images/churrasco.jpg"
+        },
+        {
+          "name": "Cascarita",
+          "price": 45000,
+          "description": "Con ensalada y acompañantes como patacon, papas a la francesa o yuca cocida",
+          "weight": "450 Gramos",
+          "image": "images/churrasco.jpg"
+        },
+        {
+          "name": "Punta de Anca",
+          "price": 43000,
+          "description": "Punta de anca con ensalada y acompañantes como patacon, papas a la francesa o yuca cocida",
+          "weight": "380 Gramos",
+          "image": "images/churrasco.jpg"
+        },
+        {
+          "name": "Costilla de cerdo",
+          "price": 38000,
+          "description": "Costilla de cerdo precocida, asada con ensalada y acompañantes como patacon, papas a la francesa o yuca cocida",
+          "weight": "500 Gramos",
+          "image": "images/churrasco.jpg"
+        },
+        {
+          "name": "Costilla de cerdo al barril",
+          "price": 38000,
+          "description": "Costilla de cerdo cocinada lentamente en barril, logrando una textura suave y jugosa. Se sirve asada con ensalada y acompañantes como patacón, papas a la francesa o yuca cocida.",
+          "weight": "500 Gramos",
+          "image": "images/churrasco.jpg"
+        },
+        {
+          "name": "Lomo de Cerdo",
+          "price": 27000,
+          "description": "Lomo de cerdo asado al censalada y acompañantes como patacon, papas a la francesa o yuca cocida",
+          "weight": "300 Gramos",
+          "image": "images/churrasco.jpg"
+        },
+        {
+          "name": "Pechuga",
+          "price": 27000,
+          "description": "Pechuga de pollo ensalada y acompañantes como patacon, papas a la francesa o yuca cocida",
+          "weight": "300 Gramos",
+          "image": "images/churrasco.jpg"
+        },
+        {
+          "name": "Picada X2",
+          "price": 40000,
+          "description": "Trae dos tipos de carnes (Res y Pollo) rodeadas de patacones y con papas a la francesa sobre la carne",
+          "serving": "2 personas",
+          "image": "images/churrasco.jpg"
+        },
+        {
+          "name": "Picada X3",
+          "price": 55000,
+          "description": "Trae tres tipos de carnes (Res, cerdo y Pollo) rodeadas de patacones y con papas a la francesa sobre la carne",
+          "serving": "3 personas",
+          "image": "images/churrasco.jpg"
+        },
+        {
+          "name": "Picada Familiar",
+          "price": 75000,
+          "description": "Trae tres tipos de carnes (Dos porciones de res, 1 cerdo y 1 Pollo) rodeadas de patacones y con papas a la francesa sobre la carne",
+          "serving": "4 o 5 Personas",
+          "image": "images/churrasco.jpg"
+        },
+        {
+          "name": "Adiciones",
+          "price": 5000,
+          "description": "Patacon, papas a la francesa o yuca cocida",
+          "image": "images/churrasco.jpg"
+        }
+      ]
+    },
+    {
+      "section": "Bebidas",
+      "subsections": [
+        {
+          "name": "Gaseosas",
+          "items": [
+            {
+              "name": "Agua",
+              "price": 3000
+            },
+            {
+              "name": "Coca Cola",
+              "price": 5000
+            },
+            {
+              "name": "Cola Roman",
+              "price": 5000
+            },
+            {
+              "name": "4Quatro",
+              "price": 4000
+            },
+            {
+              "name": "Coca Cola 1.5L",
+              "price": 9000
+            }
+          ]
+        },
+        {
+          "name": "Jugos Naturales",
+          "items": [
+            {
+              "name": "Jugo de Naranja",
+              "price": 8000
+            },
+            {
+              "name": "Jugo de Guanabana",
+              "price": 8000,
+              "variations": [
+                {
+                  "description": "En leche",
+                  "price": 9000
+                }
+              ]
+            },
+            {
+              "name": "Jugo de Maracuya",
+              "price": 8000,
+              "variations": [
+                {
+                  "description": "En leche",
+                  "price": 9000
+                }
+              ]
+            },
+            {
+              "name": "Limonada",
+              "price": 8000
+            },
+            {
+              "name": "Soda Michelada",
+              "price": 8000
+            },
+            {
+              "name": "Michelada",
+              "price": 12000,
+              "description": "(Frutos Rojos, Frutos Amarillos, Maracuya)"
+            },
+            {
+              "name": "Limonada Cerezada",
+              "price": 10000
+            },
+            {
+              "name": "Limonada de Coco",
+              "price": 12000
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

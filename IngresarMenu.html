@@ -1,0 +1,740 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Administrador de Menú - Asados Donde José</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            line-height: 1.6;
+            margin: 0;
+            padding: 20px;
+            background-color: #f5f5f5;
+            color: #333;
+        }
+
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        h1,
+        h2 {
+            color: #c62828;
+            border-bottom: 2px solid #c62828;
+            padding-bottom: 5px;
+        }
+
+        .form-section {
+            margin-bottom: 20px;
+            padding: 15px;
+            background: #f9f9f9;
+            border-radius: 5px;
+            border-left: 4px solid #c62828;
+        }
+
+        label {
+            display: block;
+            margin: 10px 0 5px;
+            font-weight: bold;
+        }
+
+        input[type="text"],
+        input[type="number"],
+        textarea,
+        select {
+            width: 100%;
+            padding: 8px;
+            margin-bottom: 10px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            box-sizing: border-box;
+        }
+
+        button {
+            background-color: #c62828;
+            color: white;
+            border: none;
+            padding: 10px 15px;
+            margin: 5px 0;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+
+        button:hover {
+            background-color: #b71c1c;
+        }
+
+        .item-list {
+            margin-top: 20px;
+        }
+
+        .item {
+            background: white;
+            padding: 10px;
+            margin-bottom: 10px;
+            border-radius: 4px;
+            border: 1px solid #ddd;
+            position: relative;
+        }
+
+        .item-actions {
+            position: absolute;
+            right: 10px;
+            top: 10px;
+        }
+
+        .variation {
+            background: #f0f0f0;
+            padding: 8px;
+            margin: 5px 0;
+            border-radius: 3px;
+        }
+
+        .json-output {
+            width: 100%;
+            height: 300px;
+            font-family: monospace;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            background: #f8f8f8;
+        }
+
+        .tabs {
+            display: flex;
+            margin-bottom: 20px;
+        }
+
+        .tab {
+            padding: 10px 20px;
+            background: #e0e0e0;
+            cursor: pointer;
+            margin-right: 5px;
+            border-radius: 5px 5px 0 0;
+        }
+
+        .tab.active {
+            background: #c62828;
+            color: white;
+        }
+
+        .tab-content {
+            display: none;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        .edit-form {
+            display: none;
+            margin-top: 15px;
+            padding: 15px;
+            background: #f0f7ff;
+            border-radius: 5px;
+            border: 1px solid #d0e3ff;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <h1>Administrador de Menú</h1>
+        <p>Asados Donde José - Menu.json</p>
+
+        <div class="tabs">
+            <div class="tab active" onclick="openTab('view-menu')">Ver Menú</div>
+            <div class="tab" onclick="openTab('add-item')">Agregar Ítem</div>
+            <div class="tab" onclick="openTab('edit-json')">Editar JSON</div>
+        </div>
+
+        <div id="view-menu" class="tab-content active">
+            <div class="form-section">
+                <h2>Menú Actual</h2>
+                <div id="menu-display" class="item-list"></div>
+            </div>
+        </div>
+
+        <div id="add-item" class="tab-content">
+            <div class="form-section">
+                <h2>Agregar Nuevo Ítem</h2>
+
+                <label for="section-select">Sección:</label>
+                <select id="section-select" onchange="updateSubsections()">
+                    <option value="">Seleccione una sección</option>
+                </select>
+
+                <label for="subsection-select">Subsección (opcional):</label>
+                <select id="subsection-select">
+                    <option value="">Ninguna (agregar directamente a la sección)</option>
+                </select>
+
+                <label for="item-name">Nombre del Ítem:</label>
+                <input type="text" id="item-name" required>
+
+                <label for="item-price">Precio:</label>
+                <input type="number" id="item-price" required>
+
+                <label for="item-description">Descripción (opcional):</label>
+                <textarea id="item-description" rows="3"></textarea>
+
+                <label for="item-weight">Peso (opcional):</label>
+                <input type="text" id="item-weight" placeholder="Ej: 400 Gramos">
+
+                <label for="item-serving">Porción (opcional):</label>
+                <input type="text" id="item-serving" placeholder="Ej: 2 personas">
+
+                <div id="variations-container">
+                    <h3>Variaciones (opcional)</h3>
+                    <div id="variation-items"></div>
+                    <button type="button" onclick="addVariationField()">+ Agregar Variación</button>
+                </div>
+
+                <button type="button" onclick="addMenuItem()">Agregar Ítem al Menú</button>
+            </div>
+            <label for="item-image">Imagen del plato:</label>
+            <input type="file" id="item-image" accept="image/*">
+            <small>Recomendado: 500x500 px, formato JPG o PNG</small>
+            <div id="image-preview" style="margin: 10px 0; max-width: 200px;"></div>
+        </div>
+
+        <div id="edit-json" class="tab-content">
+            <div class="form-section">
+                <h2>Editor de JSON</h2>
+                <textarea id="json-output" class="json-output"></textarea>
+                <button type="button" onclick="updateMenuFromJSON()">Actualizar Menú</button>
+                <button type="button" onclick="saveChanges()">Guardar Cambios</button>
+                <button type="button" onclick="resetToOriginal()">Restaurar Original</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Variable para almacenar los datos del menú
+        let menuData = {};
+        let originalMenuData = {};
+
+        // Cargar el menú desde el archivo JSON
+        async function loadMenu() {
+            try {
+                const response = await fetch('Menu.json');
+                if (!response.ok) throw new Error('No se pudo cargar el menú');
+
+                menuData = await response.json();
+                originalMenuData = JSON.parse(JSON.stringify(menuData));
+
+                updateMenuDisplay();
+                populateSectionSelects();
+                document.getElementById('json-output').value = JSON.stringify(menuData, null, 2);
+            } catch (error) {
+                console.error('Error al cargar el menú:', error);
+                alert('Error al cargar el menú. Verifica que el archivo Menu.json exista.');
+            }
+        }
+
+        // Actualizar los selectores de sección
+        function populateSectionSelects() {
+            const sectionSelect = document.getElementById('section-select');
+
+            // Limpiar select
+            sectionSelect.innerHTML = '<option value="">Seleccione una sección</option>';
+
+            // Agregar opciones
+            menuData.menu.forEach(section => {
+                const option = document.createElement('option');
+                option.value = section.section;
+                option.textContent = section.section;
+                sectionSelect.appendChild(option);
+            });
+        }
+
+        // Actualizar subsecciones basadas en la sección seleccionada
+        function updateSubsections() {
+            const sectionSelect = document.getElementById('section-select');
+            const subsectionSelect = document.getElementById('subsection-select');
+
+            subsectionSelect.innerHTML = '<option value="">Ninguna (agregar directamente a la sección)</option>';
+
+            const selectedSection = sectionSelect.value;
+            if (!selectedSection) return;
+
+            const section = menuData.menu.find(s => s.section === selectedSection);
+            if (section && section.subsections) {
+                section.subsections.forEach(sub => {
+                    const option = document.createElement('option');
+                    option.value = sub.name;
+                    option.textContent = sub.name;
+                    subsectionSelect.appendChild(option);
+                });
+            }
+        }
+
+        // Agregar un nuevo ítem al menú
+        function addMenuItem() {
+            const sectionName = document.getElementById('section-select').value;
+            const subsectionName = document.getElementById('subsection-select').value;
+            const itemName = document.getElementById('item-name').value;
+            const itemPrice = parseInt(document.getElementById('item-price').value);
+            const itemDesc = document.getElementById('item-description').value;
+            const itemWeight = document.getElementById('item-weight').value;
+            const itemServing = document.getElementById('item-serving').value;
+
+            if (!sectionName || !itemName || isNaN(itemPrice)) {
+                alert('Por favor complete los campos requeridos: Sección, Nombre y Precio');
+                return;
+            }
+
+            const newItem = {
+                name: itemName,
+                price: itemPrice
+            };
+
+            if (itemDesc) newItem.description = itemDesc;
+            if (itemWeight) newItem.weight = itemWeight;
+            if (itemServing) newItem.serving = itemServing;
+
+            // Agregar variaciones si existen
+            const variationElements = document.querySelectorAll('.variation-item');
+            if (variationElements.length > 0) {
+                newItem.variations = [];
+                variationElements.forEach(variation => {
+                    const desc = variation.querySelector('.variation-desc').value;
+                    const price = parseInt(variation.querySelector('.variation-price').value);
+                    if (desc && !isNaN(price)) {
+                        newItem.variations.push({
+                            description: desc,
+                            price: price
+                        });
+                    }
+                });
+            }
+
+            // Encontrar la sección/subsección correcta
+            const section = menuData.menu.find(s => s.section === sectionName);
+
+            if (subsectionName) {
+                // Agregar a subsección
+                const subsection = section.subsections.find(sub => sub.name === subsectionName);
+                subsection.items.push(newItem);
+            } else {
+                // Agregar directamente a la sección
+                section.items.push(newItem);
+            }
+
+            // Limpiar formulario
+            document.getElementById('item-name').value = '';
+            document.getElementById('item-price').value = '';
+            document.getElementById('item-description').value = '';
+            document.getElementById('item-weight').value = '';
+            document.getElementById('item-serving').value = '';
+            document.getElementById('variation-items').innerHTML = '';
+
+            updateMenuDisplay();
+            updateJSONOutput();
+            alert('Ítem agregado exitosamente!');
+        }
+
+        // Agregar campo de variación
+        function addVariationField() {
+            const container = document.getElementById('variation-items');
+            const div = document.createElement('div');
+            div.className = 'variation-item';
+            div.innerHTML = `
+                <div class="variation">
+                    <label>Descripción:</label>
+                    <input type="text" class="variation-desc">
+                    <label>Precio:</label>
+                    <input type="number" class="variation-price">
+                    <button type="button" onclick="this.parentElement.parentElement.remove()">Eliminar</button>
+                </div>
+            `;
+            container.appendChild(div);
+        }
+
+        // Actualizar la visualización del menú
+        function updateMenuDisplay() {
+            const menuDisplay = document.getElementById('menu-display');
+
+            menuDisplay.innerHTML = '';
+
+            menuData.menu.forEach(section => {
+                const sectionDiv = document.createElement('div');
+                sectionDiv.className = 'item';
+                sectionDiv.innerHTML = `<h3>${section.section}</h3>`;
+
+                if (section.items) {
+                    section.items.forEach((item, index) => {
+                        const itemDiv = document.createElement('div');
+                        itemDiv.className = 'item';
+                        itemDiv.innerHTML = `
+                            <div class="item-actions">
+                                <button onclick="editItem('${section.section}', null, ${index})">Editar</button>
+                                <button onclick="deleteItem('${section.section}', null, ${index})">Eliminar</button>
+                            </div>
+                            <strong>${item.name}</strong> - $${item.price.toLocaleString()}
+                            ${item.description ? `<p>${item.description}</p>` : ''}
+                            ${item.weight ? `<p><em>${item.weight}</em></p>` : ''}
+                            ${item.serving ? `<p><em>${item.serving}</em></p>` : ''}
+                            ${item.variations ? item.variations.map(v => `
+                                <div class="variation">${v.description} - $${v.price.toLocaleString()}</div>
+                            `).join('') : ''}
+                        `;
+                        sectionDiv.appendChild(itemDiv);
+                    });
+                }
+
+                if (section.subsections) {
+                    section.subsections.forEach(subsection => {
+                        const subsectionDiv = document.createElement('div');
+                        subsectionDiv.className = 'subsection';
+                        subsectionDiv.innerHTML = `<h4>${subsection.name}</h4>`;
+
+                        subsection.items.forEach((item, index) => {
+                            const itemDiv = document.createElement('div');
+                            itemDiv.className = 'item';
+                            itemDiv.innerHTML = `
+                                <div class="item-actions">
+                                    <button onclick="editItem('${section.section}', '${subsection.name}', ${index})">Editar</button>
+                                    <button onclick="deleteItem('${section.section}', '${subsection.name}', ${index})">Eliminar</button>
+                                </div>
+                                <strong>${item.name}</strong> - $${item.price.toLocaleString()}
+                                ${item.description ? `<p>${item.description}</p>` : ''}
+                                ${item.weight ? `<p><em>${item.weight}</em></p>` : ''}
+                                ${item.serving ? `<p><em>${item.serving}</em></p>` : ''}
+                                ${item.variations ? item.variations.map(v => `
+                                    <div class="variation">${v.description} - $${v.price.toLocaleString()}</div>
+                                `).join('') : ''}
+                            `;
+                            subsectionDiv.appendChild(itemDiv);
+                        });
+
+                        sectionDiv.appendChild(subsectionDiv);
+                    });
+                }
+
+                menuDisplay.appendChild(sectionDiv);
+            });
+        }
+
+        // Editar un ítem existente
+        function editItem(sectionName, subsectionName, itemIndex) {
+            let item;
+
+            if (subsectionName) {
+                const section = menuData.menu.find(s => s.section === sectionName);
+                const subsection = section.subsections.find(sub => sub.name === subsectionName);
+                item = subsection.items[itemIndex];
+            } else {
+                const section = menuData.menu.find(s => s.section === sectionName);
+                item = section.items[itemIndex];
+            }
+
+            // Crear formulario de edición
+            const editForm = document.createElement('div');
+            editForm.className = 'edit-form';
+            editForm.id = 'edit-form';
+            editForm.innerHTML = `
+                <h4>Editar Ítem: ${item.name}</h4>
+                
+                <label for="edit-item-name">Nombre:</label>
+                <input type="text" id="edit-item-name" value="${item.name}" required>
+                
+                <label for="edit-item-price">Precio:</label>
+                <input type="number" id="edit-item-price" value="${item.price}" required>
+                
+                <label for="edit-item-description">Descripción:</label>
+                <textarea id="edit-item-description" rows="3">${item.description || ''}</textarea>
+                
+                <label for="edit-item-weight">Peso:</label>
+                <input type="text" id="edit-item-weight" value="${item.weight || ''}">
+                
+                <label for="edit-item-serving">Porción:</label>
+                <input type="text" id="edit-item-serving" value="${item.serving || ''}">
+                
+                <div id="edit-variations-container">
+                    <h5>Variaciones</h5>
+                    <div id="edit-variation-items"></div>
+                    <button type="button" onclick="addEditVariationField()">+ Agregar Variación</button>
+                </div>
+                
+                <button type="button" onclick="saveItemEdit('${sectionName}', '${subsectionName}', ${itemIndex})">Guardar Cambios</button>
+                <button type="button" onclick="cancelEdit()">Cancelar</button>
+            `;
+
+            // Agregar variaciones existentes
+            if (item.variations) {
+                item.variations.forEach(variation => {
+                    addEditVariationField(variation.description, variation.price);
+                });
+            }
+
+            // Insertar después del ítem
+            const items = document.querySelectorAll('.item');
+            items.forEach(itemElement => {
+                if (itemElement.textContent.includes(item.name)) {
+                    itemElement.appendChild(editForm);
+                }
+            });
+        }
+
+        // Agregar campo de variación en el formulario de edición
+        function addEditVariationField(desc = '', price = '') {
+            const container = document.getElementById('edit-variation-items');
+            const div = document.createElement('div');
+            div.className = 'variation-item';
+            div.innerHTML = `
+                <div class="variation">
+                    <label>Descripción:</label>
+                    <input type="text" class="edit-variation-desc" value="${desc}">
+                    <label>Precio:</label>
+                    <input type="number" class="edit-variation-price" value="${price}">
+                    <button type="button" onclick="this.parentElement.parentElement.remove()">Eliminar</button>
+                </div>
+            `;
+            container.appendChild(div);
+        }
+
+        // Guardar cambios al editar un ítem
+        function saveItemEdit(sectionName, subsectionName, itemIndex) {
+            const itemName = document.getElementById('edit-item-name').value;
+            const itemPrice = parseInt(document.getElementById('edit-item-price').value);
+            const itemDesc = document.getElementById('edit-item-description').value;
+            const itemWeight = document.getElementById('edit-item-weight').value;
+            const itemServing = document.getElementById('edit-item-serving').value;
+
+            if (!itemName || isNaN(itemPrice)) {
+                alert('Por favor complete los campos requeridos: Nombre y Precio');
+                return;
+            }
+
+            let item;
+
+            if (subsectionName) {
+                const section = menuData.menu.find(s => s.section === sectionName);
+                const subsection = section.subsections.find(sub => sub.name === subsectionName);
+                item = subsection.items[itemIndex];
+            } else {
+                const section = menuData.menu.find(s => s.section === sectionName);
+                item = section.items[itemIndex];
+            }
+
+            // Actualizar el ítem
+            item.name = itemName;
+            item.price = itemPrice;
+            item.description = itemDesc || undefined;
+            item.weight = itemWeight || undefined;
+            item.serving = itemServing || undefined;
+
+            // Actualizar variaciones
+            const variationElements = document.querySelectorAll('.edit-variation-item');
+            if (variationElements.length > 0) {
+                item.variations = [];
+                document.querySelectorAll('.variation-item').forEach(variation => {
+                    const desc = variation.querySelector('.edit-variation-desc').value;
+                    const price = parseInt(variation.querySelector('.edit-variation-price').value);
+                    if (desc && !isNaN(price)) {
+                        item.variations.push({
+                            description: desc,
+                            price: price
+                        });
+                    }
+                });
+            } else {
+                delete item.variations;
+            }
+
+            // Cerrar formulario de edición
+            cancelEdit();
+
+            // Actualizar visualización
+            updateMenuDisplay();
+            updateJSONOutput();
+            alert('Cambios guardados exitosamente!');
+        }
+
+        // Cancelar edición
+        function cancelEdit() {
+            const editForm = document.getElementById('edit-form');
+            if (editForm) editForm.remove();
+        }
+
+        // Eliminar un ítem
+        function deleteItem(sectionName, subsectionName, itemIndex) {
+            if (!confirm('¿Estás seguro de que deseas eliminar este ítem?')) return;
+
+            if (subsectionName) {
+                const section = menuData.menu.find(s => s.section === sectionName);
+                const subsection = section.subsections.find(sub => sub.name === subsectionName);
+                subsection.items.splice(itemIndex, 1);
+            } else {
+                const section = menuData.menu.find(s => s.section === sectionName);
+                section.items.splice(itemIndex, 1);
+            }
+
+            updateMenuDisplay();
+            updateJSONOutput();
+            alert('Ítem eliminado exitosamente!');
+        }
+
+        // Actualizar el JSON de salida
+        function updateJSONOutput() {
+            document.getElementById('json-output').value = JSON.stringify(menuData, null, 2);
+        }
+
+        // Actualizar el menú desde el editor JSON
+        function updateMenuFromJSON() {
+            try {
+                const newData = JSON.parse(document.getElementById('json-output').value);
+                menuData = newData;
+                updateMenuDisplay();
+                alert('Menú actualizado desde JSON');
+            } catch (error) {
+                alert('Error en el formato JSON: ' + error.message);
+            }
+        }
+
+        // Guardar cambios en el archivo Menu.json
+        async function saveChanges() {
+            try {
+                const response = await fetch('save_menu.php', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify(menuData)
+                });
+
+                if (response.ok) {
+                    alert('Cambios guardados exitosamente en Menu.json');
+                    originalMenuData = JSON.parse(JSON.stringify(menuData));
+                } else {
+                    throw new Error('Error al guardar');
+                }
+            } catch (error) {
+                console.error('Error al guardar:', error);
+                alert('No se pudo guardar. Verifica que el servidor permita escritura.');
+
+                // Opción alternativa: Descargar el JSON
+                downloadJSON();
+            }
+        }
+
+        // Restaurar el menú original
+        function resetToOriginal() {
+            if (confirm('¿Estás seguro de que deseas descartar todos los cambios y restaurar el menú original?')) {
+                menuData = JSON.parse(JSON.stringify(originalMenuData));
+                updateMenuDisplay();
+                updateJSONOutput();
+                alert('Menú restaurado a la versión original');
+            }
+        }
+
+        // Descargar JSON
+        function downloadJSON() {
+            const dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(menuData, null, 2));
+            const downloadAnchor = document.createElement('a');
+            downloadAnchor.setAttribute("href", dataStr);
+            downloadAnchor.setAttribute("download", "Menu.json");
+            document.body.appendChild(downloadAnchor);
+            downloadAnchor.click();
+            downloadAnchor.remove();
+        }
+
+        // Control de pestañas
+        function openTab(tabName) {
+            const tabs = document.getElementsByClassName('tab-content');
+            for (let i = 0; i < tabs.length; i++) {
+                tabs[i].classList.remove('active');
+            }
+
+            const tabButtons = document.getElementsByClassName('tab');
+            for (let i = 0; i < tabButtons.length; i++) {
+                tabButtons[i].classList.remove('active');
+            }
+
+            document.getElementById(tabName).classList.add('active');
+            event.currentTarget.classList.add('active');
+        }
+
+        // Inicializar
+        document.addEventListener('DOMContentLoaded', function () {
+            loadMenu();
+        });
+    </script>
+
+    <!-- Archivo PHP para guardar los cambios (save_menu.php) -->
+    <!-- Este archivo debe crearse en el servidor -->
+    <script>
+        // Función para guardar cambios (versión solo cliente)
+        async function saveChanges() {
+            try {
+                // Crear un blob con los datos del menú
+                const blob = new Blob([JSON.stringify(menuData, null, 2)], { type: 'application/json' });
+                const url = URL.createObjectURL(blob);
+
+                // Crear enlace de descarga
+                const a = document.createElement('a');
+                a.href = url;
+                a.download = 'Menu.json';
+                document.body.appendChild(a);
+                a.click();
+
+                // Limpiar
+                setTimeout(() => {
+                    document.body.removeChild(a);
+                    window.URL.revokeObjectURL(url);
+                }, 100);
+
+                alert('Descarga iniciada. Por favor guarda el archivo como "Menu.json" reemplazando el existente.');
+            } catch (error) {
+                console.error('Error al guardar:', error);
+                alert('Error al generar el archivo para descargar.');
+            }
+        }
+
+        // Función alternativa usando la File System API (solo para entornos compatibles)
+        async function saveChangesWithFS() {
+            try {
+                // Verificar si la API está disponible
+                if ('showSaveFilePicker' in window) {
+                    const options = {
+                        types: [{
+                            description: 'Archivos JSON',
+                            accept: { 'application/json': ['.json'] }
+                        }],
+                        suggestedName: 'Menu.json'
+                    };
+
+                    const handle = await window.showSaveFilePicker(options);
+                    const writable = await handle.createWritable();
+                    await writable.write(JSON.stringify(menuData, null, 2));
+                    await writable.close();
+
+                    alert('Archivo guardado exitosamente!');
+                } else {
+                    // Fallback a la solución de descarga
+                    saveChanges();
+                }
+            } catch (error) {
+                console.error('Error al guardar:', error);
+                if (error.name !== 'AbortError') {
+                    alert('Error al guardar el archivo. Usando método alternativo...');
+                    saveChanges();
+                }
+            }
+        }
+
+        // Modificar el event listener del botón de guardar para usar la nueva función
+        document.querySelector('button[onclick="saveChanges()"]').onclick = saveChangesWithFS;
+    </script>
+</body>
+
+</html>

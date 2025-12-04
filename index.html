@@ -1,0 +1,311 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="Style.css">
+    <link rel="icon" href="Logo.jpg" type="image/png">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+    <title>Menú Digital - Asados Donde José</title>
+</head>
+
+<body>
+    <!-- Hero Header con imagen de fondo -->
+    <header class="hero-header">
+        <div class="header-overlay"></div>
+        <div class="header-content">
+            <img class="logo" src="Logo.jpg" alt="Logo Asados Donde José">
+            <h1 class="title">Asados Donde José</h1>
+            <p class="subtitle">Carta Digital</p>
+            <div class="divider"></div>
+        </div>
+        
+        <!-- Controles de accesibilidad flotantes -->
+        <div class="accessibility-controls">
+            <span class="controls-label">Tamaño de Letra</span>
+            <div class="font-controls">
+                <button class="font-btn" id="decrease-font" aria-label="Disminuir tamaño de fuente">
+                    <span>A-</span>
+                </button>
+                <button class="font-btn" id="reset-font" aria-label="Tamaño de fuente normal">
+                    <span>A</span>
+                </button>
+                <button class="font-btn" id="increase-font" aria-label="Aumentar tamaño de fuente">
+                    <span>A+</span>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Contenedor principal del menú -->
+    <main class="menu-wrapper">
+        <div class="menu-container" id="menu-container">
+            <!-- Loading spinner -->
+            <div class="loading-spinner">
+                <div class="spinner"></div>
+                <p>Cargando menú...</p>
+            </div>
+        </div>
+    </main>
+
+    <!-- Footer moderno -->
+    <footer class="modern-footer">
+        <div class="footer-content">
+            <div class="footer-section">
+                <h3>Horario</h3>
+                <p>Martes a Domingo</p>
+                <p class="highlight">5:30 PM - 10:00 PM</p>
+            </div>
+            
+            <div class="footer-section">
+                <h3>Contacto</h3>
+                <p class="phone">+57 317 7760031</p>
+            </div>
+            
+  <!-- Sección de Ubicación -->
+  <section class="location-section">
+      <div class="location-container">
+          <h2 class="location-title">
+              <span>📍 Encuéntranos</span>
+          </h2>
+
+          <div class="location-content">
+              <div class="location-info">
+                  <div class="info-card">
+                      <div class="info-icon">🏠</div>
+                      <h3>Dirección</h3>
+                      <p class="info-text">Cra. 18 # 21 22<br>Barrio San Bernardo</p>
+                  </div>
+              </div>
+
+          </div>
+      </div>
+  </section>
+
+        <div class="footer-bottom">
+            <p>© 2025 Asados Donde José - Todos los derechos reservados</p>
+        </div>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            // Cargar el menú desde el JSON
+            fetch('Menu.json')
+                .then(response => response.json())
+                .then(data => {
+                    const menuContainer = document.getElementById('menu-container');
+                    menuContainer.innerHTML = ''; // Limpiar el spinner
+                    renderMenu(data.menu, menuContainer);
+                    
+                    // Animación de entrada
+                    setTimeout(() => {
+                        document.querySelectorAll('.menu-section').forEach((section, index) => {
+                            setTimeout(() => {
+                                section.classList.add('fade-in');
+                            }, index * 100);
+                        });
+                    }, 100);
+                })
+                .catch(error => {
+                    console.error('Error al cargar el menú:', error);
+                    document.getElementById('menu-container').innerHTML = 
+                        '<div class="error-message">Error al cargar el menú. Por favor, recarga la página.</div>';
+                });
+
+            // Función para renderizar el menú
+            function renderMenu(menuData, container) {
+                menuData.forEach(section => {
+                    if (section.subsections) {
+                        // Sección con subsecciones (como Bebidas)
+                        section.subsections.forEach(subsection => {
+                            const sectionElement = document.createElement('section');
+                            sectionElement.className = 'menu-section';
+                            
+                            const sectionTitle = document.createElement('h2');
+                            sectionTitle.className = 'section-title';
+                            sectionTitle.innerHTML = `<span>${subsection.name}</span>`;
+                            sectionElement.appendChild(sectionTitle);
+                            
+                            const itemsGrid = document.createElement('div');
+                            itemsGrid.className = 'menu-grid';
+                            
+                            subsection.items.forEach(item => {
+                                itemsGrid.appendChild(createMenuItem(item));
+                            });
+                            
+                            sectionElement.appendChild(itemsGrid);
+                            container.appendChild(sectionElement);
+                        });
+                    } else {
+                        // Sección simple (como Platos Principales)
+                        const sectionElement = document.createElement('section');
+                        sectionElement.className = 'menu-section';
+                        
+                        const sectionTitle = document.createElement('h2');
+                        sectionTitle.className = 'section-title';
+                        sectionTitle.innerHTML = `<span>${section.section}</span>`;
+                        sectionElement.appendChild(sectionTitle);
+                        
+                        const itemsGrid = document.createElement('div');
+                        itemsGrid.className = 'menu-grid';
+                        
+                        section.items.forEach(item => {
+                            itemsGrid.appendChild(createMenuItem(item));
+                        });
+                        
+                        sectionElement.appendChild(itemsGrid);
+                        container.appendChild(sectionElement);
+                    }
+                });
+            }
+
+            // Función para crear un elemento de menú
+            function createMenuItem(item) {
+                const menuItem = document.createElement('div');
+                menuItem.className = 'menu-item';
+                
+                // Contenedor del nombre y precio
+                const itemHeader = document.createElement('div');
+                itemHeader.className = 'item-header';
+                
+                const nameElement = document.createElement('h3');
+                nameElement.className = 'item-name';
+                nameElement.textContent = item.name;
+                
+                const priceElement = document.createElement('span');
+                priceElement.className = 'item-price';
+                priceElement.textContent = `$${item.price.toLocaleString()}`;
+                
+                itemHeader.appendChild(nameElement);
+                itemHeader.appendChild(priceElement);
+                menuItem.appendChild(itemHeader);
+                
+                // Descripción
+                if (item.description) {
+                    const descElement = document.createElement('p');
+                    descElement.className = 'item-desc';
+                    descElement.textContent = item.description;
+                    menuItem.appendChild(descElement);
+                }
+                
+                // Peso o porciones
+                if (item.weight || item.serving) {
+                    const metaInfo = document.createElement('div');
+                    metaInfo.className = 'item-meta';
+                    metaInfo.innerHTML = `<span class="meta-badge">${item.weight || item.serving}</span>`;
+                    menuItem.appendChild(metaInfo);
+                }
+                
+                // Variaciones (para jugos)
+                if (item.variations) {
+                    const variationsContainer = document.createElement('div');
+                    variationsContainer.className = 'variations';
+                    
+                    item.variations.forEach(variation => {
+                        const variationElement = document.createElement('div');
+                        variationElement.className = 'variation-item';
+                        variationElement.innerHTML = `
+                            <span class="variation-desc">${variation.description}</span>
+                            <span class="variation-price">$${variation.price.toLocaleString()}</span>
+                        `;
+                        variationsContainer.appendChild(variationElement);
+                    });
+                    
+                    menuItem.appendChild(variationsContainer);
+                }
+                
+                return menuItem;
+            }
+
+            // Control de tamaño de fuente mejorado
+            const baseSizes = {
+                name: 1.1,
+                desc: 0.95,
+                price: 1.1,
+                title: 1.5
+            };
+
+            let currentSizeFactor = 1;
+            let nameElements, descElements, priceElements, titleElements;
+
+            // Observer para aplicar estilos cuando el menú se cargue
+            const observer = new MutationObserver(function(mutations) {
+                nameElements = document.querySelectorAll('.item-name');
+                descElements = document.querySelectorAll('.item-desc, .variation-desc');
+                priceElements = document.querySelectorAll('.item-price, .variation-price');
+                titleElements = document.querySelectorAll('.section-title');
+                applyFontSizes();
+                observer.disconnect();
+            });
+
+            observer.observe(document.getElementById('menu-container'), {
+                childList: true,
+                subtree: true
+            });
+
+            function applyFontSizes() {
+                if (nameElements && descElements && priceElements) {
+                    nameElements.forEach(el => {
+                        el.style.fontSize = `${baseSizes.name * currentSizeFactor}em`;
+                    });
+                    descElements.forEach(el => {
+                        el.style.fontSize = `${baseSizes.desc * currentSizeFactor}em`;
+                    });
+                    priceElements.forEach(el => {
+                        el.style.fontSize = `${baseSizes.price * currentSizeFactor}em`;
+                    });
+                    titleElements.forEach(el => {
+                        el.style.fontSize = `${baseSizes.title * currentSizeFactor}em`;
+                    });
+                }
+            }
+
+            // Agregar feedback visual a los botones
+            function addButtonFeedback(button) {
+                button.classList.add('active');
+                setTimeout(() => button.classList.remove('active'), 200);
+            }
+
+            document.getElementById('decrease-font').addEventListener('click', function() {
+                if (currentSizeFactor > 0.7) {
+                    currentSizeFactor -= 0.1;
+                    applyFontSizes();
+                    addButtonFeedback(this);
+                }
+            });
+
+            document.getElementById('reset-font').addEventListener('click', function() {
+                currentSizeFactor = 1;
+                applyFontSizes();
+                addButtonFeedback(this);
+            });
+
+            document.getElementById('increase-font').addEventListener('click', function() {
+                if (currentSizeFactor < 1.5) {
+                    currentSizeFactor += 0.1;
+                    applyFontSizes();
+                    addButtonFeedback(this);
+                }
+            });
+
+            // Smooth scroll para navegación
+            document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+                anchor.addEventListener('click', function (e) {
+                    e.preventDefault();
+                    const target = document.querySelector(this.getAttribute('href'));
+                    if (target) {
+                        target.scrollIntoView({
+                            behavior: 'smooth',
+                            block: 'start'
+                        });
+                    }
+                });
+            });
+        });
+    </script>
+</body>
+</html>
