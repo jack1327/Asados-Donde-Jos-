@@ -3,6 +3,12 @@
     {
       "section": "Platos Principales",
       "items": [
+          {
+          "name": "Entrada",
+          "price": 8000,
+          "description": "Porcion de Patacones con queso costeño rallado",
+          "image": "images/churrasco.jpg"
+        },
         {
           "name": "Churrasco",
           "price": 43000,
@@ -10,6 +16,7 @@
           "weight": "400 Gramos",
           "image": "images/churrasco.jpg"
         },
+       
         {
           "name": "Cascarita",
           "price": 45000,
@@ -21,12 +28,12 @@
           "name": "Punta de Anca",
           "price": 43000,
           "description": "Punta de anca con ensalada y acompañantes como patacon, papas a la francesa o yuca cocida",
-          "weight": "380 Gramos",
+          "weight": "400 Gramos",
           "image": "images/churrasco.jpg"
         },
         {
           "name": "Costilla de cerdo",
-          "price": 38000,
+          "price": 37000,
           "description": "Costilla de cerdo precocida, asada con ensalada y acompañantes como patacon, papas a la francesa o yuca cocida",
           "weight": "500 Gramos",
           "image": "images/churrasco.jpg"
