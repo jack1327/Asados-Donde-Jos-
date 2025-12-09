@@ -3,12 +3,7 @@
     {
       "section": "Platos Principales",
       "items": [
-          {
-          "name": "Entrada",
-          "price": 8000,
-          "description": "Porcion de Patacones con queso costeño rallado",
-          "image": "images/churrasco.jpg"
-        },
+          
         {
           "name": "Churrasco",
           "price": 43000,
@@ -24,6 +19,13 @@
           "weight": "450 Gramos",
           "image": "images/churrasco.jpg"
         },
+        {
+          "name": "Solomito",
+          "price": 43000,
+          "description": "Solomito jugoso a la plancha con ensalada y acompañantes como patacón, papas a la francesa o yuca cocida",
+          "weight": "400 Gramos (Recien agregado)"
+        },
+
         {
           "name": "Punta de Anca",
           "price": 43000,
@@ -84,6 +86,19 @@
           "name": "Adiciones",
           "price": 5000,
           "description": "Patacon, papas a la francesa o yuca cocida",
+          "image": "images/churrasco.jpg"
+        }
+       
+      ]
+    },
+    {
+      "section": "Entradas (Nuevo)",
+      "items": [
+         {
+          "name": "Patacon con queso",
+          "price": 8000,
+          "description": "Porcion de Patacones con queso costeño rallado",
+          "serving":"Recien agregado",
           "image": "images/churrasco.jpg"
         }
       ]
@@ -170,3 +185,4 @@
     }
   ]
 }
+
