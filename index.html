@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="Style.css">
+    <link rel="stylesheet" href="styles.css">
     <link rel="icon" href="Logo.jpg" type="image/png">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -24,21 +24,6 @@
             <div class="divider"></div>
         </div>
         
-        <!-- Controles de accesibilidad flotantes -->
-        <div class="accessibility-controls">
-            <span class="controls-label">Tamaño de Letra</span>
-            <div class="font-controls">
-                <button class="font-btn" id="decrease-font" aria-label="Disminuir tamaño de fuente">
-                    <span>A-</span>
-                </button>
-                <button class="font-btn" id="reset-font" aria-label="Tamaño de fuente normal">
-                    <span>A</span>
-                </button>
-                <button class="font-btn" id="increase-font" aria-label="Aumentar tamaño de fuente">
-                    <span>A+</span>
-                </button>
-            </div>
-        </div>
     </header>
 
     <!-- Contenedor principal del menú -->
@@ -51,7 +36,32 @@
             </div>
         </div>
     </main>
+<header class="hero-header">
+    <div class="header-overlay"></div>
+    <div class="header-content">
+        <!-- Agregamos una corona navideña al logo -->
+        <div class="logo-container">
+            <img class="logo" src="Navidad.png" alt="Logo Asados Donde José Navideño">
+            <div class="christmas-hat">🎅</div>
+        </div>
+        <h1 class="title">Asados Donde José</h1>
+        <p class="subtitle">🎄 Carta Navideña Especial 🎄</p>
+        <div class="divider"></div>
+        <!-- Banner navideño especial -->
+        <div class="christmas-banner">
+            ¡Especiales Navideños Disponibles! Pregunta por nuestro menú festivo
+        </div>
+    </div>
+    
+</header>
 
+<!-- Agregamos decoraciones navideñas flotantes -->
+<div class="christmas-decorations">
+    <div class="ornament ornament-1">🔔</div>
+    <div class="ornament ornament-2">⭐</div>
+    <div class="ornament ornament-3">🎁</div>
+    <div class="ornament ornament-4">❄️</div>
+</div>
     <!-- Footer moderno -->
     <footer class="modern-footer">
         <div class="footer-content">
@@ -305,8 +315,46 @@
                     }
                 });
             });
+            // Agregar efectos navideños después de cargar el menú
+            function addChristmasEffects() {
+                // Efecto de nieve en los precios
+                document.querySelectorAll('.item-price').forEach(price => {
+                    price.classList.add('jingle');
+                });
+    
+                // Efecto especial en los títulos de sección
+                document.querySelectorAll('.section-title').forEach(title => {
+                    title.addEventListener('mouseenter', function() {
+                        this.style.transform = 'scale(1.05)';
+                        this.style.color = 'var(--primary-color)';
+                    });
+        
+                    title.addEventListener('mouseleave', function() {
+                        this.style.transform = 'scale(1)';
+                    });
+                });
+    
+                // Sonido de campanas al hacer clic en items (opcional)
+                document.querySelectorAll('.menu-item').forEach(item => {
+                    item.addEventListener('click', function() {
+                        // Solo en dispositivos que no sean móviles
+                        if (window.innerWidth > 768) {
+                            this.style.animation = 'jingle 0.5s ease-in-out';
+                            setTimeout(() => {
+                                this.style.animation = '';
+                            },             500);
+                        }
+                    });
+                });
+            }
+
+            // Llamar la función después de renderizar el menú
+            setTimeout(addChristmasEffects, 1000);
         });
     </script>
 </body>
 </html>
+
+
+
 
