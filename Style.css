@@ -1,32 +1,34 @@
-       /* ============================================
-   RESET Y VARIABLES
+  /* ============================================
+   VARIABLES NAVIDEÑAS
    ============================================ */
 
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-}
-
 :root {
-    /* Paleta de colores moderna para restaurante */
-    --primary-color: #d44137;
-    --primary-dark: #b8941f;
-    --secondary-color: #2c2c2c;
-    --accent-color: #8b4513;
-    --background-light: #faf8f3;
+    /* Paleta de colores navideña */
+    --primary-color: #C62828; /* Rojo navideño */
+    --primary-dark: #9A0007;
+    --secondary-color: #1B5E20; /* Verde navideño */
+    --secondary-light: #2E7D32;
+    --accent-color: #FFD54F; /* Dorado navideño */
+    --accent-dark: #F9A825;
+    --background-light: #FFF8E1; /* Crema claro navideño */
     --background-white: #ffffff;
     --text-primary: #1a1a1a;
-    --text-secondary: #666666;
-    --text-light: #999999;
-    --border-color: #e5e5e5;
-    --shadow-light: rgba(0, 0, 0, 0.4);
-    --shadow-medium: rgba(0, 0, 0, 0.12);
+    --text-secondary: #5D4037; /* Marrón para contraste */
+    --text-light: #8D6E63;
+    --border-color: #FFCDD2; /* Borde rojo claro */
+    --shadow-light: rgba(198, 40, 40, 0.1);
+    --shadow-medium: rgba(27, 94, 32, 0.15);
     --shadow-heavy: rgba(0, 0, 0, 0.2);
+    
+    /* Elementos festivos */
+    --snow-color: #ffffff;
+    --berry-color: #C62828;
+    --holly-green: #1B5E20;
     
     /* Tipografía */
     --font-heading: 'Playfair Display', serif;
     --font-body: 'Poppins', sans-serif;
+    --font-christmas: 'Mountains of Christmas', cursive;
     
     /* Espaciado */
     --spacing-xs: 0.5rem;
@@ -48,25 +50,51 @@
 }
 
 /* ============================================
-   ESTILOS GENERALES
+   ESTILOS GENERALES NAVIDEÑOS
    ============================================ */
 
 body {
     font-family: var(--font-body);
-    background-color: var(--background-light);
+    background: linear-gradient(135deg, var(--background-light) 0%, #E8F5E9 100%);
     color: var(--text-primary);
     line-height: 1.6;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
+    position: relative;
+    overflow-x: hidden;
+}
+
+/* Fondo con copos de nieve */
+body::before {
+    content: '';
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-image: 
+        radial-gradient(circle at 10% 20%, rgba(255, 255, 255, 0.8) 1px, transparent 1px),
+        radial-gradient(circle at 20% 30%, rgba(255, 255, 255, 0.6) 1px, transparent 1px),
+        radial-gradient(circle at 30% 40%, rgba(255, 255, 255, 0.7) 1px, transparent 1px);
+    background-size: 200px 200px, 300px 300px, 400px 400px;
+    background-position: 0 0, 100px 100px, 200px 200px;
+    z-index: -1;
+    opacity: 0.3;
+    animation: snowFall 20s linear infinite;
+}
+
+@keyframes snowFall {
+    0% { background-position: 0 0, 100px 100px, 200px 200px; }
+    100% { background-position: 0 200px, 100px 300px, 200px 400px; }
 }
 
 /* ============================================
-   HERO HEADER
+   HERO HEADER NAVIDEÑO
    ============================================ */
 
 .hero-header {
     position: relative;
-    background: linear-gradient(135deg, var(--secondary-color) 0%, var(--accent-color) 100%);
+    background: linear-gradient(135deg, var(--secondary-color) 0%, #0D3B1A 100%);
     padding: var(--spacing-xxl) var(--spacing-md);
     text-align: center;
     overflow: hidden;
@@ -75,6 +103,7 @@ body {
     flex-direction: column;
     justify-content: center;
     align-items: center;
+    border-bottom: 8px solid var(--primary-color);
 }
 
 .header-overlay {
@@ -83,9 +112,10 @@ body {
     left: 0;
     right: 0;
     bottom: 0;
-    background: url('lol.jpg') no-repeat center bottom;
+    background: url('lol.jpg') no-repeat center center;
     background-size: cover;
-    opacity: 0.3;
+    opacity: 0.2;
+    filter: sepia(0.3) hue-rotate(120deg);
 }
 
 .header-content {
@@ -94,224 +124,135 @@ body {
     animation: fadeInUp 0.8s ease;
 }
 
+/* Logo navideño */
 .logo {
-    width: 120px;
-    height: 120px;
+    width: 150px;
+    height: 150px;
     border-radius: 50%;
-    border: 4px solid var(--primary-color);
-    box-shadow: 0 8px 24px var(--shadow-heavy);
+    border: 6px solid var(--primary-color);
+    box-shadow: 
+        0 8px 24px var(--shadow-heavy),
+        0 0 0 8px rgba(255, 213, 79, 0.3);
     margin-bottom: var(--spacing-md);
     object-fit: cover;
-    transition: transform var(--transition-medium);
+    transition: all var(--transition-medium);
+    position: relative;
+}
+
+.logo::after {
+    content: '🎄';
+    position: absolute;
+    top: -10px;
+    right: -10px;
+    font-size: 2rem;
+    animation: rotate 4s linear infinite;
 }
 
 .logo:hover {
     transform: scale(1.05) rotate(5deg);
+    border-color: var(--accent-color);
+}
+
+@keyframes rotate {
+    0%, 100% { transform: rotate(0deg); }
+    25% { transform: rotate(10deg); }
+    75% { transform: rotate(-10deg); }
 }
 
 .title {
     font-family: var(--font-heading);
     font-size: 3rem;
     font-weight: 700;
-    color: var(--background-white);
+    color: var(--accent-color);
     margin-bottom: var(--spacing-sm);
     letter-spacing: 2px;
-    text-shadow: 2px 2px 8px var(--shadow-heavy);
-}
-
-.subtitle {
-    font-size: 1.3rem;
-    color: var(--primary-color);
-    font-weight: 300;
-    letter-spacing: 4px;
-    text-transform: uppercase;
-    margin-bottom: var(--spacing-md);
-}
-
-.divider {
-    width: 80px;
-    height: 3px;
-    background: linear-gradient(90deg, transparent, var(--primary-color), transparent);
-    margin: var(--spacing-md) auto;
-}
-
-/* ============================================
-   CONTROLES DE ACCESIBILIDAD
-   ============================================ */
-
-.accessibility-controls {
-    position: fixed;
-    top: 20px;
-    right: 20px;
-    background: var(--background-white);
-    padding: var(--spacing-sm) var(--spacing-md);
-    border-radius: var(--radius-lg);
-    box-shadow: 0 4px 16px var(--shadow-medium);
-    z-index: 1000;
-    display: flex;
-    flex-direction: column;
-    gap: var(--spacing-xs);
-    align-items: center;
-}
-
-.controls-label {
-    font-size: 0.75rem;
-    color: var(--text-secondary);
-    text-transform: uppercase;
-    letter-spacing: 1px;
-    font-weight: 500;
-}
-
-.font-controls {
-    display: flex;
-    gap: var(--spacing-xs);
-}
-
-.font-btn {
-    width: 40px;
-    height: 40px;
-    border: 2px solid var(--border-color);
-    background: var(--background-white);
-    border-radius: var(--radius-sm);
-    cursor: pointer;
-    font-family: var(--font-body);
-    font-weight: 600;
-    color: var(--text-primary);
-    transition: all var(--transition-fast);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
-
-.font-btn:hover {
-    background: var(--primary-color);
-    border-color: var(--primary-color);
-    color: var(--background-white);
-    transform: translateY(-2px);
-    box-shadow: 0 4px 12px var(--shadow-medium);
-}
-
-.font-btn:active,
-.font-btn.active {
-    transform: scale(0.95);
-}
-
-.font-btn span {
-    font-size: 0.9rem;
-}
-
-/* ============================================
-   CONTENEDOR PRINCIPAL DEL MENÚ
-   ============================================ */
-
-.menu-wrapper {
-    max-width: 1200px;
-    margin: 0 auto;
-    padding: var(--spacing-xl) var(--spacing-md);
-}
-
-.menu-container {
-    display: flex;
-    flex-direction: column;
-    gap: var(--spacing-xxl);
-}
-
-/* ============================================
-   LOADING SPINNER
-   ============================================ */
-
-.loading-spinner {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    padding: var(--spacing-xxl);
-    gap: var(--spacing-md);
-}
-
-.spinner {
-    width: 50px;
-    height: 50px;
-    border: 4px solid var(--border-color);
-    border-top-color: var(--primary-color);
-    border-radius: 50%;
-    animation: spin 1s linear infinite;
-}
-
-@keyframes spin {
-    to { transform: rotate(360deg); }
-}
-
-.loading-spinner p {
-    color: var(--text-secondary);
-    font-size: 0.9rem;
-}
-
-/* ============================================
-   SECCIONES DEL MENÚ
-   ============================================ */
-
-.menu-section {
-    opacity: 0;
-    transform: translateY(20px);
-    transition: all var(--transition-medium);
-}
-
-.menu-section.fade-in {
-    opacity: 1;
-    transform: translateY(0);
-}
-
-.section-title {
-    font-family: var(--font-heading);
-    font-size: 2.5rem;
-    font-weight: 600;
-    color: var(--secondary-color);
-    text-align: center;
-    margin-bottom: var(--spacing-xl);
-    position: relative;
-    padding-bottom: var(--spacing-md);
-}
-
-.section-title::after {
-    content: '';
-    position: absolute;
-    bottom: 0;
-    left: 50%;
-    transform: translateX(-50%);
-    width: 60px;
-    height: 3px;
-    background: var(--primary-color);
-    border-radius: 2px;
-}
-
-.section-title span {
+    text-shadow: 
+        2px 2px 4px rgba(0, 0, 0, 0.5),
+        0 0 20px rgba(198, 40, 40, 0.5);
     position: relative;
     display: inline-block;
 }
 
-/* ============================================
-   GRID DE ITEMS DEL MENÚ
-   ============================================ */
-
-.menu-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
-    gap: var(--spacing-lg);
+.title::before,
+.title::after {
+    content: '🎅';
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 1.8rem;
+    opacity: 0.8;
 }
 
+.title::before {
+    left: -50px;
+}
+
+.title::after {
+    right: -50px;
+}
+
+.subtitle {
+    font-size: 1.3rem;
+    color: var(--accent-color);
+    font-weight: 300;
+    letter-spacing: 4px;
+    text-transform: uppercase;
+    margin-bottom: var(--spacing-md);
+    background: linear-gradient(90deg, var(--primary-color), var(--accent-color), var(--primary-color));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    background-size: 200% 100%;
+    animation: shimmer 3s ease-in-out infinite;
+}
+
+@keyframes shimmer {
+    0%, 100% { background-position: -200% 0; }
+    50% { background-position: 200% 0; }
+}
+
+.divider {
+    width: 100px;
+    height: 4px;
+    background: linear-gradient(90deg, var(--primary-color), var(--accent-color), var(--primary-color));
+    margin: var(--spacing-md) auto;
+    border-radius: 2px;
+    position: relative;
+}
+
+.divider::before,
+.divider::after {
+    content: '⭐';
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 1rem;
+}
+
+.divider::before {
+    left: -25px;
+}
+
+.divider::after {
+    right: -25px;
+}
+
+
 /* ============================================
-   ITEMS INDIVIDUALES DEL MENÚ
+   ITEMS DEL MENÚ NAVIDEÑOS
    ============================================ */
 
 .menu-item {
-    background: var(--background-white);
+    background: linear-gradient(145deg, #ffffff, #f5f5f5);
     padding: var(--spacing-lg);
     border-radius: var(--radius-md);
-    box-shadow: 0 2px 8px var(--shadow-light);
+    box-shadow: 
+        0 4px 12px var(--shadow-light),
+        inset 0 0 0 2px var(--border-color);
     transition: all var(--transition-medium);
     position: relative;
     overflow: hidden;
+    border: 1px solid var(--border-color);
 }
 
 .menu-item::before {
@@ -321,27 +262,37 @@ body {
     left: 0;
     width: 4px;
     height: 100%;
-    background: var(--primary-color);
+    background: linear-gradient(to bottom, var(--primary-color), var(--secondary-color));
     transform: scaleY(0);
     transition: transform var(--transition-medium);
     transform-origin: bottom;
 }
 
+.menu-item::after {
+    content: '🎁';
+    position: absolute;
+    top: -15px;
+    right: -15px;
+    font-size: 1.5rem;
+    opacity: 0.2;
+    transform: rotate(45deg);
+    transition: all var(--transition-medium);
+}
+
 .menu-item:hover {
-    transform: translateY(-4px);
-    box-shadow: 0 8px 24px var(--shadow-medium);
+    transform: translateY(-6px);
+    box-shadow: 
+        0 12px 24px rgba(27, 94, 32, 0.2),
+        0 0 0 3px rgba(255, 213, 79, 0.2);
 }
 
 .menu-item:hover::before {
     transform: scaleY(1);
 }
 
-.item-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: flex-start;
-    margin-bottom: var(--spacing-sm);
-    gap: var(--spacing-sm);
+.menu-item:hover::after {
+    opacity: 0.8;
+    transform: rotate(0deg) scale(1.2);
 }
 
 .item-name {
@@ -351,158 +302,233 @@ body {
     color: var(--secondary-color);
     flex: 1;
     line-height: 1.3;
+    position: relative;
+    padding-left: 25px;
+}
+
+.item-name::before {
+    content: '🎄';
+    position: absolute;
+    left: 0;
+    font-size: 1rem;
+    opacity: 0.7;
 }
 
 .item-price {
     font-family: var(--font-body);
     font-size: 1.2rem;
     font-weight: 600;
-    color: var(--primary-color);
+    background: linear-gradient(45deg, var(--primary-color), var(--accent-dark));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
     white-space: nowrap;
-}
-
-.item-desc {
-    font-size: 0.95rem;
-    color: var(--text-secondary);
-    line-height: 1.6;
-    margin-bottom: var(--spacing-sm);
-}
-
-.item-meta {
-    margin-top: var(--spacing-sm);
-}
-
-.meta-badge {
-    display: inline-block;
-    padding: var(--spacing-xs) var(--spacing-sm);
-    background: var(--background-light);
-    color: var(--text-secondary);
-    border-radius: var(--radius-sm);
-    font-size: 0.85rem;
-    font-weight: 500;
-    border: 1px solid var(--border-color);
+    padding: 2px 8px;
+    border-radius: 4px;
+    background-color: rgba(255, 213, 79, 0.1);
 }
 
 /* ============================================
-   VARIACIONES
+   TÍTULOS DE SECCIÓN NAVIDEÑOS
    ============================================ */
 
-.variations {
-    margin-top: var(--spacing-md);
-    padding-top: var(--spacing-md);
-    border-top: 1px solid var(--border-color);
-    display: flex;
-    flex-direction: column;
-    gap: var(--spacing-xs);
-}
-
-.variation-item {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: var(--spacing-xs);
-    border-radius: var(--radius-sm);
-    transition: background var(--transition-fast);
-}
-
-.variation-item:hover {
-    background: var(--background-light);
-}
-
-.variation-desc {
-    font-size: 0.9rem;
-    color: var(--text-secondary);
-}
-
-.variation-price {
-    font-size: 0.95rem;
+.section-title {
+    font-family: var(--font-heading);
+    font-size: 2.5rem;
     font-weight: 600;
-    color: var(--accent-color);
+    color: var(--primary-color);
+    text-align: center;
+    margin-bottom: var(--spacing-xl);
+    position: relative;
+    padding-bottom: var(--spacing-md);
+}
+
+.section-title::before {
+    content: '✨';
+    position: absolute;
+    left: -40px;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 1.5rem;
+    animation: twinkle 2s infinite;
+}
+
+.section-title::after {
+    content: '✨';
+    position: absolute;
+    right: -40px;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 1.5rem;
+    animation: twinkle 2s infinite 1s;
+}
+
+@keyframes twinkle {
+    0%, 100% { opacity: 0.3; transform: translateY(-50%) scale(0.8); }
+    50% { opacity: 1; transform: translateY(-50%) scale(1.2); }
+}
+
+.section-title::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 100px;
+    height: 3px;
+    background: linear-gradient(90deg, transparent, var(--primary-color), var(--secondary-color), transparent);
+    border-radius: 2px;
 }
 
 /* ============================================
-   FOOTER MODERNO
+   FOOTER NAVIDEÑO
    ============================================ */
 
 .modern-footer {
-    background: var(--secondary-color);
+    background: linear-gradient(135deg, var(--secondary-color) 0%, #0D3B1A 100%);
     color: var(--background-white);
     margin-top: var(--spacing-xxl);
     padding: var(--spacing-xl) var(--spacing-md) var(--spacing-lg);
+    position: relative;
+    overflow: hidden;
+    border-top: 6px solid var(--primary-color);
 }
 
-.footer-content {
-    max-width: 1200px;
-    margin: 0 auto;
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-    gap: var(--spacing-xl);
-    text-align: center;
-    margin-bottom: var(--spacing-lg);
+.modern-footer::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 50px;
+    background: repeating-linear-gradient(
+        90deg,
+        transparent,
+        transparent 20px,
+        var(--accent-color) 20px,
+        var(--accent-color) 40px
+    );
+    opacity: 0.3;
 }
 
 .footer-section h3 {
     font-family: var(--font-heading);
     font-size: 1.3rem;
-    color: var(--primary-color);
+    color: var(--accent-color);
     margin-bottom: var(--spacing-sm);
+    position: relative;
+    display: inline-block;
+}
+
+.footer-section h3::after {
+    content: '🎄';
+    position: absolute;
+    right: -25px;
+    font-size: 1rem;
 }
 
 .footer-section p {
-    color: var(--text-light);
+    color: rgba(255, 255, 255, 0.9);
     font-size: 0.95rem;
     margin: var(--spacing-xs) 0;
 }
 
 .footer-section .highlight {
-    color: var(--background-white);
+    color: var(--accent-color);
     font-weight: 500;
     font-size: 1.1rem;
+    text-shadow: 0 0 10px rgba(255, 213, 79, 0.5);
 }
 
 .footer-section .phone {
-    color: var(--primary-color);
+    color: var(--accent-color);
     font-weight: 500;
     font-size: 1.2rem;
     letter-spacing: 1px;
+    background: rgba(198, 40, 40, 0.2);
+    padding: 8px 16px;
+    border-radius: 20px;
+    display: inline-block;
+    border: 1px solid rgba(255, 213, 79, 0.3);
 }
 
 .footer-bottom {
     text-align: center;
     padding-top: var(--spacing-lg);
-    border-top: 1px solid rgba(255, 255, 255, 0.1);
-    color: var(--text-light);
+    border-top: 1px solid rgba(255, 213, 79, 0.2);
+    color: var(--accent-color);
     font-size: 0.85rem;
+    position: relative;
+}
+
+.footer-bottom::before {
+    content: '🎅 ¡Felices Fiestas! 🎄';
+    position: absolute;
+    top: -15px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: var(--primary-color);
+    padding: 5px 15px;
+    border-radius: 20px;
+    font-size: 0.75rem;
+    white-space: nowrap;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
 }
 
 /* ============================================
-   ANIMACIONES
+   BANNER NAVIDEÑO ESPECIAL
    ============================================ */
 
-@keyframes fadeInUp {
-    from {
-        opacity: 0;
-        transform: translateY(30px);
-    }
-    to {
-        opacity: 1;
-        transform: translateY(0);
-    }
-}
-
-/* ============================================
-   MENSAJE DE ERROR
-   ============================================ */
-
-.error-message {
+.christmas-banner {
+    background: linear-gradient(90deg, var(--primary-color), var(--secondary-color), var(--primary-color));
+    color: var(--accent-color);
     text-align: center;
-    padding: var(--spacing-xl);
-    color: var(--text-secondary);
-    font-size: 1.1rem;
+    padding: var(--spacing-sm);
+    font-weight: 600;
+    margin-bottom: var(--spacing-lg);
+    border-radius: var(--radius-sm);
+    animation: bannerGlow 3s ease-in-out infinite;
+    position: relative;
+    overflow: hidden;
+}
+
+.christmas-banner::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+    animation: shimmerBanner 2s infinite;
+}
+
+@keyframes bannerGlow {
+    0%, 100% { box-shadow: 0 0 20px rgba(198, 40, 40, 0.5); }
+    50% { box-shadow: 0 0 30px rgba(255, 213, 79, 0.7); }
+}
+
+@keyframes shimmerBanner {
+    0% { left: -100%; }
+    100% { left: 100%; }
 }
 
 /* ============================================
-   RESPONSIVE DESIGN
+   ANIMACIONES NAVIDEÑAS ADICIONALES
+   ============================================ */
+
+@keyframes jingle {
+    0%, 100% { transform: rotate(0deg); }
+    25% { transform: rotate(5deg); }
+    75% { transform: rotate(-5deg); }
+}
+
+.jingle {
+    animation: jingle 0.5s ease-in-out infinite;
+}
+
+/* ============================================
+   RESPONSIVE DESIGN NAVIDEÑO
    ============================================ */
 
 @media (max-width: 768px) {
@@ -510,132 +536,110 @@ body {
         font-size: 2.2rem;
     }
     
-    .subtitle {
-        font-size: 1rem;
-        letter-spacing: 2px;
+    .title::before,
+    .title::after {
+        font-size: 1.2rem;
+        left: -30px;
+        right: -30px;
     }
     
-    .hero-header {
-        padding: var(--spacing-xl) var(--spacing-md);
-        min-height: 280px;
-    }
-    
-    .logo {
-        width: 100px;
-        height: 100px;
-    }
-    
-    .accessibility-controls {
-        top: 10px;
-        right: 10px;
-        padding: var(--spacing-xs) var(--spacing-sm);
-    }
-    
-    .controls-label {
-        font-size: 0.65rem;
-    }
-    
-    .font-btn {
-        width: 36px;
-        height: 36px;
-    }
-    
-    .font-btn span {
-        font-size: 0.8rem;
-    }
-    
-    .menu-wrapper {
-        padding: var(--spacing-lg) var(--spacing-sm);
-    }
-    
-    .menu-container {
-        gap: var(--spacing-xl);
-    }
-    
-    .section-title {
-        font-size: 2rem;
-        margin-bottom: var(--spacing-lg);
-    }
-    
-    .menu-grid {
-        grid-template-columns: 1fr;
-        gap: var(--spacing-md);
-    }
-    
-    .menu-item {
-        padding: var(--spacing-md);
-    }
-    
-    .item-name {
-        font-size: 1.15rem;
-    }
-    
-    .item-price {
-        font-size: 1.1rem;
-    }
-    
-    .footer-content {
-        grid-template-columns: 1fr;
-        gap: var(--spacing-lg);
+    .section-title::before,
+    .section-title::after {
+        display: none;
     }
 }
 
 @media (max-width: 480px) {
-    :root {
-        --spacing-xl: 2rem;
-        --spacing-xxl: 2.5rem;
-    }
-    
-    .title {
-        font-size: 1.8rem;
-        letter-spacing: 1px;
-    }
-    
-    .subtitle {
-        font-size: 0.9rem;
-    }
-    
-    .hero-header {
-        min-height: 240px;
-    }
-    
-    .logo {
-        width: 80px;
-        height: 80px;
-    }
-    
-    .section-title {
-        font-size: 1.6rem;
-    }
-    
-    .item-header {
-        flex-direction: column;
-        align-items: flex-start;
-    }
-    
-    .item-price {
-        margin-top: var(--spacing-xs);
-    }
-}
-
-/* ============================================
-   PRINT STYLES
-   ============================================ */
-
-@media print {
-    .hero-header,
-    .accessibility-controls,
-    .modern-footer {
+    .title::before,
+    .title::after {
         display: none;
     }
     
-    .menu-item {
-        break-inside: avoid;
-        box-shadow: none;
-        border: 1px solid var(--border-color);
+    .logo::after {
+        font-size: 1.5rem;
+        top: -5px;
+        right: -5px;
     }
-    
-    body {
-        background: white;
-    }
+}
+/* ============================================
+   DECORACIONES NAVIDEÑAS FLOTANTES
+   ============================================ */
+
+.christmas-decorations {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: 999;
+}
+
+.ornament {
+    position: absolute;
+    font-size: 2rem;
+    opacity: 0.4;
+    animation: float 6s ease-in-out infinite;
+    filter: drop-shadow(0 0 5px rgba(255, 213, 79, 0.5));
+}
+
+.ornament:hover {
+    opacity: 0.8;
+    animation-play-state: paused;
+}
+
+.ornament-1 {
+    top: 10%;
+    left: 5%;
+    animation-delay: 0s;
+    animation-duration: 8s;
+}
+
+.ornament-2 {
+    top: 20%;
+    right: 10%;
+    animation-delay: 1s;
+    animation-duration: 7s;
+}
+
+.ornament-3 {
+    bottom: 30%;
+    left: 15%;
+    animation-delay: 2s;
+    animation-duration: 9s;
+}
+
+.ornament-4 {
+    bottom: 20%;
+    right: 5%;
+    animation-delay: 3s;
+    animation-duration: 6s;
+}
+
+@keyframes float {
+    0%, 100% { transform: translateY(0) rotate(0deg); }
+    25% { transform: translateY(-20px) rotate(10deg); }
+    50% { transform: translateY(0) rotate(0deg); }
+    75% { transform: translateY(20px) rotate(-10deg); }
+}
+
+/* Contenedor del logo navideño */
+.logo-container {
+    position: relative;
+    display: inline-block;
+}
+
+.christmas-hat {
+    position: absolute;
+    top: -25px;
+    left: 50%;
+    transform: translateX(-50%);
+    font-size: 2.5rem;
+    animation: bounce 2s ease-in-out infinite;
+    filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.3));
+}
+
+@keyframes bounce {
+    0%, 100% { transform: translateX(-50%) translateY(0); }
+    50% { transform: translateX(-50%) translateY(-10px); }
 }
