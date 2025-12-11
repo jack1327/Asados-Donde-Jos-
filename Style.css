@@ -1,4 +1,4 @@
-  /* ============================================
+ /* ============================================
    VARIABLES NAVIDEÑAS
    ============================================ */
 
@@ -253,6 +253,12 @@ body::before {
     position: relative;
     overflow: hidden;
     border: 1px solid var(--border-color);
+}
+.btn-wsp {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    z-index: 100;
 }
 
 .menu-item::before {
@@ -643,3 +649,4 @@ body::before {
     0%, 100% { transform: translateX(-50%) translateY(0); }
     50% { transform: translateX(-50%) translateY(-10px); }
 }
+
