@@ -7,7 +7,7 @@
         {
           "name": "Churrasco",
           "price": 43000,
-          "description": "Churrasco estilo mariposa con ensalada y acompañantes como patacon, papas a la francesa o yuca cocida",
+          "description": "Con ensalada y acompañantes como patacon, papas a la francesa o yuca cocida",
           "weight": "400 Gramos",
           "image": "images/churrasco.jpg"
         },
@@ -22,42 +22,42 @@
         {
           "name": "Solomito",
           "price": 43000,
-          "description": "Solomito jugoso a la plancha con ensalada y acompañantes como patacón, papas a la francesa o yuca cocida",
+          "description": "Con ensalada y acompañantes como patacon, papas a la francesa o yuca cocida",
           "weight": "400 Gramos (Recien agregado)"
         },
 
         {
           "name": "Punta de Anca",
           "price": 43000,
-          "description": "Punta de anca con ensalada y acompañantes como patacon, papas a la francesa o yuca cocida",
+          "description": "Con ensalada y acompañantes como patacon, papas a la francesa o yuca cocida",
           "weight": "400 Gramos",
           "image": "images/churrasco.jpg"
         },
         {
           "name": "Costilla de cerdo",
-          "price": 37000,
-          "description": "Costilla de cerdo precocida, asada con ensalada y acompañantes como patacon, papas a la francesa o yuca cocida",
+          "price": 38000,
+          "description": "Con ensalada y acompañantes como patacon, papas a la francesa o yuca cocida",
           "weight": "500 Gramos",
           "image": "images/churrasco.jpg"
         },
         {
           "name": "Costilla de cerdo al barril",
           "price": 38000,
-          "description": "Costilla de cerdo cocinada lentamente en barril, logrando una textura suave y jugosa. Se sirve asada con ensalada y acompañantes como patacón, papas a la francesa o yuca cocida.",
+          "description": "Con ensalada y yuca cocida",
           "weight": "500 Gramos",
           "image": "images/churrasco.jpg"
         },
         {
           "name": "Lomo de Cerdo",
           "price": 27000,
-          "description": "Lomo de cerdo asado al censalada y acompañantes como patacon, papas a la francesa o yuca cocida",
+          "description": "Con ensalada y acompañantes como patacon, papas a la francesa o yuca cocida",
           "weight": "300 Gramos",
           "image": "images/churrasco.jpg"
         },
         {
           "name": "Pechuga",
           "price": 27000,
-          "description": "Pechuga de pollo ensalada y acompañantes como patacon, papas a la francesa o yuca cocida",
+          "description": "Con ensalada y acompañantes como patacon o papas a la francesa",
           "weight": "300 Gramos",
           "image": "images/churrasco.jpg"
         },
